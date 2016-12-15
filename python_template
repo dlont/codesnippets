@@ -44,4 +44,4 @@ if __name__ == '__main__':
         exitcode = main(args)
         logging.info( time.asctime() )
         logging.info( 'TOTAL TIME IN MINUTES:' + str((time.time() - start_time) / 60.0))
-        sys.exit(exitcode
+        sys.exit(exitcode)

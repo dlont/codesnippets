@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+
+"""A simple python script template.
+"""
+
+import os
+import sys
+import time
+import argparse
+import logging
+
+def main(arguments):
+        return 0
+
+if __name__ == '__main__':
+        start_time = time.time()
+
+        parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
+        parser.add_argument('infile', help="Input file", type=argparse.FileType('r'))
+        parser.add_argument('-o', '--outfile', help="Output file",
+                        default=sys.stdout, type=argparse.FileType('w'))
+        parser.add_argument(
+                        '-d', '--debug',
+                        help="Print lots of debugging statements",
+                        action="store_const", dest="loglevel", const=logging.DEBUG,
+                        default=logging.WARNING,
+                        )
+        parser.add_argument(
+                        '-v', '--verbose',
+                        help="Be verbose",
+                        action="store_const", dest="loglevel", const=logging.INFO,
+                        )
+
+        args = parser.parse_args(sys.argv[1:])
+
+        print(args)
+        
+        logging.basicConfig(level=args.loglevel)
+
+        (options, args) = parser.parse_args()
+        logging.info( time.asctime() )
+        exitcode = main(args)
+        logging.info( time.asctime() )
+        logging.info( 'TOTAL TIME IN MINUTES:' + str((time.time() - start_time) / 60.0))
+        sys.exit(exitcode

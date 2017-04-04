@@ -24,7 +24,7 @@ def main(arguments):
         i = 0
         while i < total:
                 progress(i, total, 'Progress')
-                time.sleep(0.1)  # emulating long-playing job
+                time.sleep(0.1)  # pause
                 i += 1
         return 0
 

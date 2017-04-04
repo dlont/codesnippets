@@ -9,8 +9,25 @@ import time
 import argparse
 import logging
 
+def progress(current, total, status=''):
+        fullBarLength = 80
+        doneBarLength = int(round(fullBarLength * current / float(total)))
+
+        percents = round(100.0 * current / float(total), 1)
+        bar = '>' * doneBarLength + ' ' * (fullBarLength - doneBarLength)
+
+        sys.stdout.write('[%s] %s%s ...%s\r' % (bar, percents, '%', status))
+        sys.stdout.flush()
+
 def main(arguments):
+        total = 1000
+        i = 0
+        while i < total:
+                progress(i, total, 'Progress')
+                time.sleep(0.1)  # emulating long-playing job
+                i += 1
         return 0
+
 
 if __name__ == '__main__':
         start_time = time.time()
@@ -18,9 +35,8 @@ if __name__ == '__main__':
         parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
-        parser.add_argument('infile', help="Input file", type=argparse.FileType('r'))
-        parser.add_argument('-o', '--outfile', help="Output file",
-                        default=sys.stdout, type=argparse.FileType('w'))
+        parser.add_argument('infile', help="Input file")
+        parser.add_argument('-o', '--outfile', help="Output file")
         parser.add_argument(
                         '-d', '--debug',
                         help="Print lots of debugging statements",
@@ -39,7 +55,6 @@ if __name__ == '__main__':
         
         logging.basicConfig(level=args.loglevel)
 
-        (options, args) = parser.parse_args()
         logging.info( time.asctime() )
         exitcode = main(args)
         logging.info( time.asctime() )

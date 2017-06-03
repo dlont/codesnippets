@@ -39,7 +39,7 @@ if __name__ == '__main__':
         formatter_class=argparse.RawDescriptionHelpFormatter)
         parser.add_argument('infile', help="Input file")
         parser.add_argument('-o', '--outfile', help="Output file")
-        parser.add_argument('-j', '--config-json', help="JSON configuration file")
+        parser.add_argument('-j', '--config-json', type=json.loads, help="JSON configuration file")
         parser.add_argument(
                         '-d', '--debug',
                         help="Print lots of debugging statements",

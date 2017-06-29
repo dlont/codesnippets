@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-"""A simple python script template.
+"""
+A simple python script template.
 """
 
 import os
@@ -10,6 +11,7 @@ import argparse
 import logging
 import json
 from pprint import pprint
+#import ROOT as rt
 
 def progress(current, total, status=''):
         fullBarLength = 80
@@ -40,6 +42,7 @@ if __name__ == '__main__':
         parser.add_argument('infile', help="Input file")
         parser.add_argument('-o', '--outfile', help="Output file")
         parser.add_argument('-j', '--config-json', type=json.loads, help="JSON configuration file")
+        #parser.add_argument('-b', help="ROOT batch mode", dest='isBatch', action='store_true')
         parser.add_argument(
                         '-d', '--debug',
                         help="Print lots of debugging statements",

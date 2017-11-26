@@ -11,6 +11,9 @@ import argparse
 import logging
 import json
 from pprint import pprint
+from prettytable import  PrettyTable
+from prettytable import MSWORD_FRIENDLY
+import pandas as pd
 #import ROOT as rt
 
 def progress(current, total, status=''):

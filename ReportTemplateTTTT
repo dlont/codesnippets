@@ -15,7 +15,14 @@
 
 %opening
 \title{}
-\author{}
+\author{D.~Lontkovskyi}
+
+\newcommand{\T}{\rule{0pt}{2.6ex}}
+\newcommand{\B}{\rule[-1.2ex]{0pt}{0pt}}
+
+\newcommand{\ttbar}{\ensuremath{t\bar{t}}\xspace}
+\newcommand{\tttt}{\ensuremath{t\bar{t}t\bar{t}}\xspace}
+\newcommand{\slch}{\ensuremath{l+}jets\xspace}
 
 \begin{document}
 

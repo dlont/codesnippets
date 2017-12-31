@@ -1,0 +1,28 @@
+\documentclass[]{scrartcl}
+\usepackage{rotating}
+\usepackage{pdflscape}
+\usepackage{multirow}
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=10mm,
+ }
+
+\usepackage{xcolor,colortbl}
+
+%opening
+\title{}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+\end{abstract}
+
+\end{document}

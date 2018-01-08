@@ -56,6 +56,7 @@ def progress(current, total, status=''):
         sys.stdout.write('[%s] %s%s ...%s\r' % (bar, percents, '%', status))
         sys.stdout.flush()
 
+@log_with()
 def main(arguments):
         total = 1000
         i = 0
@@ -95,7 +96,6 @@ if __name__ == '__main__':
         logging.basicConfig(level=args.loglevel)
 
         logging.info( time.asctime() )
-        @log_with()
         exitcode = main(args)
         logging.info( time.asctime() )
         logging.info( 'TOTAL TIME IN MINUTES:' + str((time.time() - start_time) / 60.0))

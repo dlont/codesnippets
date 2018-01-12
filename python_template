@@ -28,7 +28,7 @@ class log_with(object):
     ENTRY_MESSAGE = 'Entering {}'
     EXIT_MESSAGE = 'Exiting {}'
 
-    def __init__(self, logger=None):
+    def __init__(self, logger=logging):
         self.logger = logger
 
     def __call__(self, func):
@@ -40,9 +40,9 @@ class log_with(object):
 
         @functools.wraps(func)
         def wrapper(*args, **kwds):
-            self.logger.info(self.ENTRY_MESSAGE.format(func.__name__))  # logging level .info(). Set to .debug() if you want to
+            self.logger.debug(self.ENTRY_MESSAGE.format(func.__name__))  # logging level .info(). Set to .debug() if you want to
             f_result = func(*args, **kwds)
-            self.logger.info(self.EXIT_MESSAGE.format(func.__name__))   # logging level .info(). Set to .debug() if you want to
+            self.logger.debug(self.EXIT_MESSAGE.format(func.__name__))   # logging level .info(). Set to .debug() if you want to
             return f_result
         return wrapper
 
@@ -75,6 +75,8 @@ if __name__ == '__main__':
         formatter_class=argparse.RawDescriptionHelpFormatter)
         parser.add_argument('infile', help="Input file")
         parser.add_argument('-o', '--outfile', help="Output file")
+        #parser.add_argument('-e', '--extension', help="Plot file extension (.C, .root, .png, .pdf)", default='png')
+        parser.add_argument('--dir', help="Result output directory", default='./')
         parser.add_argument('-j', '--config-json', type=json.loads, help="JSON configuration file")
         #parser.add_argument('-b', help="ROOT batch mode", dest='isBatch', action='store_true')
         parser.add_argument(

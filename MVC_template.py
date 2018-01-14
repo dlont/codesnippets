@@ -171,13 +171,7 @@ class View(object):
         @log_with()
         def get_outfile_name(self):
                 return '{}/{}.{}'.format(self._outputfolder,self._outfilename,self._outfileextension)
-        @log_with()
-        def draw(self):
-                c = rt.TCanvas('c','cms',5,45,800,800)
-                c.Divide(2,3,0.,0.)
 
-                if self._style: self._style.decorate_canvas(c)
-                c.SaveAs(self.get_outfile_name())
         @log_with()
         def annotate(self,type,config):
                 if type == "screen":
@@ -195,6 +189,13 @@ class View(object):
                 else:
                         logging.error("Annotation format not recognized: {}".format(type))
 
+        @log_with()
+        def draw(self):
+                c = rt.TCanvas('c','cms',5,45,800,800)
+
+                if self._style: self._style.decorate_canvas(c)
+                c.SaveAs(self.get_outfile_name())
+			
 def main(arguments):
 
         # Disable garbage collection for this list of objects

@@ -124,6 +124,7 @@ class Style(object):
                 legend.SetBorderSize(0)
                 if header: legend.SetHeader(header)
                 for el in objlist:
+			pass
                         # legend.AddEntry(self._model.get(el),self._json[el]['legend']['name'],self._json[el]['legend']['style'])
                 c.cd()
                 legend.Draw()

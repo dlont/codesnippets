@@ -182,7 +182,9 @@ class View(object):
                                   self._model._annotation.encode('ascii')+
                                   bcolors.ENDC, 120))
                         if os.path.exists(self._outputfolder):
-                                shutil.copy2(config,self._outputfolder)
+				# Writing JSON data
+				with open(self._outputfolder+'/'+os.path.basename(config), 'w') as f:
+					json.dump(self._model._jsondic, f, indent=4, sort_keys=True)
                 elif type == "tex":
                         logging.warning("Annotation format: {}. Not implemented yet!".format(type))
                 elif type == "md":
@@ -228,6 +230,8 @@ def main(arguments):
         view.set_outfilename(arguments.outfile)
         view.set_extension(arguments.extension)
         view.draw()
+	
+	jsondic['command']=' '.join(sys.argv)
         if arguments.annotation_format:
                 view.annotate(arguments.annotation_format,arguments.config_json)
 

@@ -147,7 +147,7 @@ class Style(object):
 class View(object):
         @log_with()
         def __init__(self):
-                self._model = None
+                self.model = None
                 self._style = None
                 self._outfilename = 'out'
                 self._outfileextension = 'png'
@@ -157,7 +157,7 @@ class View(object):
                 self._style = style
         @log_with()
         def set_model(self,model):
-                self._model = model
+                self.model = model
         @log_with()
         def set_outfilename(self,filename):
                 if filename: self._outfilename = filename
@@ -179,12 +179,12 @@ class View(object):
                         bright_green_text = "\033[1;32;40m"
                         normal_text = "\033[0;37;40m"
                         print "\n".join(textwrap.wrap(bcolors.OKBLUE+
-                                  self._model._annotation.encode('ascii')+
+                                  self.model._annotation.encode('ascii')+
                                   bcolors.ENDC, 120))
                         if os.path.exists(self._outputfolder):
 				# Writing JSON data
 				with open(self._outputfolder+'/'+os.path.basename(config), 'w') as f:
-					json.dump(self._model._jsondic, f, indent=4, sort_keys=True)
+					json.dump(self.model._jsondic, f, indent=4, sort_keys=True)
                 elif type == "tex":
                         logging.warning("Annotation format: {}. Not implemented yet!".format(type))
                 elif type == "md":

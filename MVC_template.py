@@ -216,9 +216,14 @@ def main(arguments):
 
         #Load configuration .json file
         jsondic = None
-        with open(arguments.config_json) as json_data:
-                jsondic = json.load(json_data)
-                logging.debug(pp.pformat(jsondic))
+	if ".json" in arguments.config:
+        	with open(arguments.config) as json_data:
+                	jsondic = json.load(json_data)
+                	logging.debug(pp.pformat(jsondic))
+	elif: "_cff.py" in arguments.config:
+		from arguments.config import config
+		jsondic = config
+		logging.debug(pp.pformat(jsondic))
 
         model = Model(jsondic)
 
@@ -248,7 +253,7 @@ if __name__ == '__main__':
         parser.add_argument('-o', '--outfile', help="Output file")
         parser.add_argument('-e', '--extension', help="Plot file extension (.C, .root, .png, .pdf)", default='png')
         parser.add_argument('--dir', help="Result output directory", default='.')
-        parser.add_argument('-j', '--config-json', help="JSON configuration file", required=True)
+        parser.add_argument('-c', '--config', help=".json or _cff.py configuration file", required=True)
         parser.add_argument('-a', '--annotation_format', default="screen",\
                             help="Print annotation in given format (screen, tex, md)")
         parser.add_argument('--no-annotation', dest='annotation_format', action='store_false',\

@@ -170,8 +170,9 @@ class View(object):
                 if not os.path.exists(folder):
                         os.makedirs(folder)
         @log_with()
-        def get_outfile_name(self):
-                return '{}/{}.{}'.format(self._outputfolder,self._outfilename,self._outfileextension)
+        def get_outfile_name(self,substring=''):
+                for ext in self._outfileextension.split(","):
+                        yield '{}/{}{}.{}'.format(self._outputfolder,self._outfilename,substring,ext)
 
         @log_with()
         def annotate(self,type,config):

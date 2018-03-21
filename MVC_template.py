@@ -220,7 +220,7 @@ def main(arguments):
         	with open(arguments.config) as json_data:
                 	jsondic = json.load(json_data)
                 	logging.debug(pp.pformat(jsondic))
-	elif: "_cff.py" in arguments.config:
+	elif "_cff.py" in arguments.config:
 		from arguments.config import config
 		jsondic = config
 		logging.debug(pp.pformat(jsondic))

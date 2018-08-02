@@ -6,6 +6,7 @@ A simple python script template.
 
 import os
 import sys
+import imp
 import time
 import shutil
 import argparse
@@ -221,8 +222,8 @@ def main(arguments):
                 	configuration = json.load(json_data)
                 	logging.debug(pp.pformat(configuration))
 	elif "_cff.py" in arguments.config:
-		from arguments.config import config
-		configuration = config
+                configuration_module = imp.load_source('my_config', arguments.config)
+		configuration = configuration_module.config
 		logging.debug(pp.pformat(configuration))
 
         model = Model(configuration)

@@ -68,12 +68,12 @@ def progress(current, total, status=''):
         sys.stdout.flush()
 
 class Model(object):
-        def __init__(self,jsondic):
-                self._jsondic = jsondic
+        def __init__(self,configuration):
+                self._configuration = configuration
                 self._objects = {}
                 self._annotation = 'Performance comparision of different MVA discriminants'
-                if 'annotation' in self._jsondic:
-                        self._annotation = self._jsondic['annotation']
+                if 'annotation' in self._configuration:
+                        self._annotation = self._configuration['annotation']
                 self.Initialize()
 
         @log_with()
@@ -185,7 +185,7 @@ class View(object):
                         if os.path.exists(self._outputfolder):
 				# Writing JSON data
 				with open(self._outputfolder+'/'+os.path.basename(config), 'w') as f:
-					json.dump(self.model._jsondic, f, indent=4, sort_keys=True)
+					json.dump(self.model._configuration, f, indent=4, sort_keys=True)
                 elif type == "tex":
                         logging.warning("Annotation format: {}. Not implemented yet!".format(type))
                 elif type == "md":
@@ -215,19 +215,19 @@ def main(arguments):
         rt.TIter.__init__._creates = False
 
         #Load configuration .json file
-        jsondic = None
+        configuration = None
 	if ".json" in arguments.config:
         	with open(arguments.config) as json_data:
-                	jsondic = json.load(json_data)
-                	logging.debug(pp.pformat(jsondic))
+                	configuration = json.load(json_data)
+                	logging.debug(pp.pformat(configuration))
 	elif "_cff.py" in arguments.config:
 		from arguments.config import config
-		jsondic = config
-		logging.debug(pp.pformat(jsondic))
+		configuration = config
+		logging.debug(pp.pformat(configuration))
 
-        model = Model(jsondic)
+        model = Model(configuration)
 
-        style = Style(jsondic,model)
+        style = Style(configuration,model)
 
         view = View()
         view.set_model(model)
@@ -237,7 +237,7 @@ def main(arguments):
         view.set_extension(arguments.extension)
         view.draw()
 	
-	jsondic['command']=' '.join(sys.argv)
+	configuration['command']=' '.join(sys.argv)
         if arguments.annotation_format:
                 view.annotate(arguments.annotation_format,arguments.config_json)
 

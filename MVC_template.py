@@ -199,7 +199,8 @@ class View(object):
                 c = rt.TCanvas('c','cms',5,45,800,800)
 
                 if self._style: self._style.decorate_canvas(c)
-                c.SaveAs(self.get_outfile_name())
+                for output_file_name in self.get_outfile_name():
+                        c.SaveAs(output_file_name)
 			
 def main(arguments):
 

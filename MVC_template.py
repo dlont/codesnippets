@@ -194,9 +194,10 @@ class View(object):
         def save_config(self, config):
                 if os.path.exists(self._outputfolder):
                         # Writing configuration data
-                        with open(self._outputfolder+'/'+os.path.basename(config), 'w') as f:
-                                if ".json" in config: json.dump(self.model._configuration, f, indent=4, sort_keys=True)
-                                elif "_cff.py" in config: print "Saving to _cff.py config file in NOT IMPLEMENTED!"
+                        if "_cff.py" in config: print "Saving to _cff.py config file in NOT IMPLEMENTED!"
+                        elif ".json" in config: 
+                                with open(self._outputfolder+'/'+os.path.basename(config), 'w') as f:
+                                        json.dump(self.model._configuration, f, indent=4, sort_keys=True)
 
         @log_with()
         def draw(self):

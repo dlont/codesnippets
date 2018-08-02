@@ -176,23 +176,27 @@ class View(object):
                         yield '{}/{}{}.{}'.format(self._outputfolder,self._outfilename,substring,ext)
 
         @log_with()
-        def annotate(self,type,config):
+        def annotate(self,type):
                 if type == "screen":
                         bright_green_text = "\033[1;32;40m"
                         normal_text = "\033[0;37;40m"
                         print "\n".join(textwrap.wrap(bcolors.OKBLUE+
                                   self.model._annotation.encode('ascii')+
                                   bcolors.ENDC, 120))
-                        if os.path.exists(self._outputfolder):
-				# Writing JSON data
-				with open(self._outputfolder+'/'+os.path.basename(config), 'w') as f:
-					json.dump(self.model._configuration, f, indent=4, sort_keys=True)
                 elif type == "tex":
                         logging.warning("Annotation format: {}. Not implemented yet!".format(type))
                 elif type == "md":
                         logging.warning("Annotation format: {}. Not implemented yet!".format(type))
                 else:
                         logging.error("Annotation format not recognized: {}".format(type))
+
+        @log_with()
+        def save_config(self, config):
+                if os.path.exists(self._outputfolder):
+                        # Writing configuration data
+                        with open(self._outputfolder+'/'+os.path.basename(config), 'w') as f:
+                                if ".json" in config: json.dump(self.model._configuration, f, indent=4, sort_keys=True)
+                                elif "_cff.py" in config: print "Saving to _cff.py config file in NOT IMPLEMENTED!"
 
         @log_with()
         def draw(self):
@@ -241,7 +245,8 @@ def main(arguments):
 	
 	configuration['command']=' '.join(sys.argv)
         if arguments.annotation_format:
-                view.annotate(arguments.annotation_format,arguments.config_json)
+                view.annotate(arguments.annotation_format)
+                view.save_config(arguments.config)
 
         return 0
 

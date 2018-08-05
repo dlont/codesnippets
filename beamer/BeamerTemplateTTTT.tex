@@ -1,0 +1,107 @@
+\documentclass[xcolor=dvipsnames, hyperref={pdfpagelabels=true}]{beamer} 
+\usepackage{etex}
+\usecolortheme{lily} 
+\usetheme[height=7mm]{Boadilla} 
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{epstopdf}
+\usepackage{xspace}
+\usepackage{mathrsfs}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{multicol}
+\usepackage{adjustbox}
+\usepackage{amsmath}
+\usepackage{marvosym}
+\usepackage{booktabs}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{slashed}
+
+\usepackage[absolute,overlay]{textpos}
+\setlength{\TPHorizModule}{1cm}
+\setlength{\TPVertModule}{1cm}
+
+\usetikzlibrary{decorations.pathreplacing}
+
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{frametitle}
+{\vskip0pt
+  \leavevmode
+%\hbox{%
+\begin{beamercolorbox}   [wd=\paperwidth,ht=0ex,dp=0ex]{frametitle}%
+\underline{\makebox[\paperwidth][l]{\hspace*{10pt}
+\large$\blacktriangleright$ {\textbf{\insertframetitle}}}}
+\end{beamercolorbox}
+%  }%
+}
+\addtobeamertemplate{frametitle}{\vspace*{-0.1cm}}{\vspace*{-0.3cm}}
+\setbeamertemplate{itemize items}[square]
+%\setbeamertemplate{footline}[frame number,author]
+\usefoottemplate{\insertshortauthor\hspace{1ex}(VUB)\hfill\tiny{\color{black!50}\insertframenumber/\inserttotalframenumber}}
+
+\AtBeginSection[]
+{
+   \begin{frame}[plain]
+       \begin{block}{}
+       \begin{center}
+       \begin{Huge}
+       \insertsectionhead
+       \end{Huge}
+       \end{center}
+       \end{block}
+   \end{frame}
+}
+
+\newcommand{\frametitledef}{\frametitle{%
+\ifnum\value{subsection}=0
+  \parbox[t]{1em}{\thesection}%
+  \parbox[t]{\dimexpr0.9\paperwidth-1em\relax}{\insertsection}%
+\else
+  \ifnum\value{subsubsection}=0
+    \parbox[t]{2em}{\thesection.\thesubsection}%
+    \parbox[t]{\dimexpr0.9\paperwidth-2em\relax}{\insertsubsection}%
+  \else
+    \parbox[t]{3em}{\thesection.\thesubsection.\thesubsubsection}%
+    \parbox[t]{\dimexpr0.9\paperwidth-3em\relax}{\insertsubsubsection}%
+  \fi
+\fi
+}}
+
+\title % (optional, use only with long paper titles)
+{\textbf{Search for SM $t\bar{t}t\bar{t}$ production.}}
+\subtitle{\Large Pre-approval talk.}
+
+\author[D.~Lontkovskyi]{Freya~Blekman, Robert~Clare, \underline{Denys~Lontkovskyi}, Long~Wang, Stephen~Wimpenny}  
+
+\institute[VUB] % (optional, but mostly needed)
+{
+  \inst{1} Vrije Universiteit Brussel
+}
+\institute[UCR] % (optional, but mostly needed)
+{
+  \inst{2} University College Riverside
+}
+
+\date[19 Jul, 2017] % (optional, should be abbreviation of conference name)
+{Top $\sigma$-meeting\\ 19 Jul, 2017}
+
+\subject{Physics}
+
+
+
+\newenvironment{proenv}{\only{\setbeamercolor{local structure}{fg=green}}}{}
+\newenvironment{conenv}{\only{\setbeamercolor{local structure}{fg=red}}}{}
+
+\subject{Physics}
+
+\input{tex/misc/titlepagedef}
+\input{tex/misc/definitions}
+
+\begin{document}
+\input{tex/misc/title}
+\end{document}

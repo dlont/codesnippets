@@ -23,8 +23,9 @@ c = rt.TChain("Craneen__Mu")
 c.Add(filename)
 nev = c.Draw("leptonIso","nJets>=10&&nMtags>=4","goff")
 pybuf = c.GetVal(0)
+pybufw = c.GetW()
 buf = np.array([pybuf[i] for i in range(0,nev)])
-ob = OprimizedBinning( buf )
+ob = OprimizedBinning( buf, pybufw )
 ob._lowstat_thresh=30
 ob._lowstat_algo='scott'
 h = ob.get_histogram()

@@ -194,7 +194,11 @@ class View(object):
         def save_config(self, config):
                 if os.path.exists(self._outputfolder):
                         # Writing configuration data
-                        if "_cff.py" in config: print "Saving to _cff.py config file in NOT IMPLEMENTED!"
+                        if "_cff.py" in config: 
+				with open(self._outputfolder+'/'+os.path.basename(config), 'w') as f:
+                                        serialized_config_str = pp.pformat(self.model._configuration)
+                                        serialized_config_str = 'config='+serialized_config_str
+                                        f.write(serialized_config_str)
                         elif ".json" in config: 
                                 with open(self._outputfolder+'/'+os.path.basename(config), 'w') as f:
                                         json.dump(self.model._configuration, f, indent=4, sort_keys=True)

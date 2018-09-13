@@ -10,6 +10,7 @@ import imp
 import time
 import shutil
 import argparse
+import subprocess
 import logging
 import json
 import textwrap
@@ -211,6 +212,37 @@ class View(object):
                 for output_file_name in self.get_outfile_name():
                         c.SaveAs(output_file_name)
 			
+class LatexBeamerView(View):
+        @log_with()
+        def __init__(self):
+                self.limits=None
+                pass
+
+        @log_with()
+        def Init(self):
+                pass
+
+        @log_with()
+        def draw(self):
+                self.Init()
+                subprocess.call(["pdflatex", "-interaction=nonstop", "-output-directory=beamer", self.model._configuration['latex_main']])
+
+class LatexReportView(View):
+        @log_with()
+        def __init__(self):
+                self.limits=None
+                pass
+
+        @log_with()
+        def Init(self):
+                pass
+
+        @log_with()
+        def draw(self):
+                self.Init()
+                print self.model._configuration
+                subprocess.call(["pdflatex", "-interaction=nonstop", "-output-directory=latex", self.model._configuration['latex_main']])
+		
 def main(arguments):
 
         # Disable garbage collection for this list of objects
@@ -240,7 +272,15 @@ def main(arguments):
 
         style = Style(configuration,model)
 
-        view = View()
+        view = None
+        if configuration['mode'] == 'beamer':
+                print "beamer option is not implemented!"
+                view = LatexBeamerView()
+        elif configuration['mode'] == 'report':
+                print "report option is not implemented!"
+                view = LatexReportView()
+        else:
+                view = View()
         view.set_model(model)
         view.set_style(style)
         view.set_outputfolder(arguments.dir)

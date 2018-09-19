@@ -225,7 +225,9 @@ class LatexBeamerView(View):
         @log_with()
         def draw(self):
                 self.Init()
-                subprocess.call(["pdflatex", "-interaction=nonstop", "-output-directory=beamer", self.model._configuration['latex_main']])
+		View.draw(self)
+                print self.model._configuration
+                subprocess.call(["pdflatex", "-interaction=nonstop", "-output-directory=build", self.model._configuration['latex_main']])
 
 class LatexReportView(View):
         @log_with()
@@ -240,8 +242,9 @@ class LatexReportView(View):
         @log_with()
         def draw(self):
                 self.Init()
+		View.draw(self)
                 print self.model._configuration
-                subprocess.call(["pdflatex", "-interaction=nonstop", "-output-directory=latex", self.model._configuration['latex_main']])
+                subprocess.call(["pdflatex", "-interaction=nonstop", "-output-directory=build", self.model._configuration['latex_main']])
 		
 def main(arguments):
 
@@ -302,7 +305,7 @@ if __name__ == '__main__':
         parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
-        parser.add_argument('-o', '--outfile', help="Output file")
+        parser.add_argument('-o', '--outfile', help="Output file", default='test')
         parser.add_argument('-e', '--extension', help="Plot file extension (.C, .root, .png, .pdf)", default='png')
         parser.add_argument('--dir', help="Result output directory", default='.')
         parser.add_argument('-c', '--config', help=".json or _cff.py configuration file", required=True)

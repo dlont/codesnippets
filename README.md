@@ -8,8 +8,10 @@ Miscellaneous code snippets
   + it will typically use Model.get(element_name) to build histogram, graph, etc.
 + launch
 ```bash
-out=`date +%Y-%m-%d-%H%M`
+out=`date +%F-%H%M`
 python tools/performace_comparison.py -b -v -j conf.json  -o outputfile --dir=$out -e pdf
+#OR using python config file
+python tools/performace_comparison.py -b -v -j conf_cff.py  -o outputfile --dir=$out -e pdf
 ```
 ## Binning usage example
 ```python

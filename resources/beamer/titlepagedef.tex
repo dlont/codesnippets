@@ -1,0 +1,54 @@
+
+\pgfdeclareimage[height=\paperheight]{mybackground}{resources/beamer/logo/run201602event114902683-3d-4000x2250.png}
+
+\makeatletter
+\setbeamertemplate{title page}
+{
+\begin{tikzpicture}[remember picture, overlay]
+    \node[inner sep=0pt, opacity=0.2] at (current page.center) {%
+        \includegraphics[width=\paperwidth,height=\paperheight]{resources/beamer/logo/run201602event114902683-3d-4000x2250.png}%
+    };%
+\end{tikzpicture}
+            
+  \begin{centering}
+    \begin{beamercolorbox}[sep=8pt,center]{title}
+      \usebeamerfont{title}\huge\underline{\inserttitle}\par%
+      \ifx\insertsubtitle\@empty%
+      \else%
+        \vskip0.25em%
+        {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+      \fi%     
+    \end{beamercolorbox}%
+    \vskip1em\par
+    \begin{beamercolorbox}[sep=8pt,center]{author}
+      \includegraphics[height=0.15\textheight]{resources/beamer/logo/CMSlogo_color_label_1024_May2014.png}\hspace{10pt}
+      \includegraphics[height=0.15\textheight]{resources/beamer/logo/vub-logo-2016.png}\hspace{10pt}
+      \includegraphics[height=0.15\textheight]{resources/beamer/logo/UCRlogo.png}\\
+      \vspace{10pt}
+      \usebeamerfont{author}\textbf{\Large\insertauthor}
+      \vspace{-20pt}
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=8pt,center]{institute}
+    	\begin{columns}
+	    	\column{.45\textwidth}
+
+	    	\column{.54\textwidth}
+	    	      \begin{flushleft}
+	    		  \begin{block}{Outline:}
+	    		  	\begin{itemize}
+	    		    \item Introduction
+	    		    \item \tttt search in SL and OS DL channels
+	    		    \item Combined results
+	    		  	\end{itemize}
+	    		  \end{block}
+	    	      \end{flushleft}
+    	\end{columns}
+    \end{beamercolorbox}
+    \vspace{-5pt}
+    \begin{beamercolorbox}[sep=8pt,center]{date}
+      \usebeamerfont{date}\insertdate
+    \end{beamercolorbox}%\vskip0.5em
+  \end{centering}
+
+}
+\makeatother

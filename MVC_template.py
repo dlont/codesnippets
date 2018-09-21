@@ -3,11 +3,13 @@
 """
 A simple python script template.
 """
+__version__ = "1.0"
 
 import os
 import sys
 import imp
 import time
+import glob
 import shutil
 import argparse
 import subprocess
@@ -146,6 +148,43 @@ class Style(object):
                 # canvas.SetLogy()
                 canvas.Update()
 
+class Serializer(object):
+        @log_with()
+        def __init__(self,builddir='build'):
+                self._buildfolder = builddir
+                self._outputfolder = None
+                pass
+        
+        @log_with()
+        def set_outputfolder(self,folder):
+                self._outputfolder = folder
+                if not os.path.exists(folder):
+                        os.makedirs(folder)
+
+        @log_with()
+        def move_builddir_to_outputfolder(self):
+                print self._buildfolder, self._outputfolder, (self._buildfolder and self._outputfolder)
+                if self._buildfolder is not None and self._outputfolder is not None:
+                        for extension in ['pdf','png','tex']:
+                                for file in glob.glob('{}/*.{}'.format(self._buildfolder,extension)):
+                                        shutil.move(file, self._outputfolder)
+
+        @log_with()
+        def serialize_view(self,View):
+                self.move_builddir_to_outputfolder()
+                pass
+        
+        @log_with()
+        def serialize_beamer_view(self,View):
+                self.move_builddir_to_outputfolder()
+                pass
+
+        
+        @log_with()
+        def serialize_report_view(self,View):
+                self.move_builddir_to_outputfolder()
+                pass
+
 class View(object):
         @log_with()
         def __init__(self):
@@ -153,7 +192,7 @@ class View(object):
                 self._style = None
                 self._outfilename = 'out'
                 self._outfileextension = 'png'
-                self._outputfolder = '.'
+                self._outputfolder = 'build'
         @log_with()
         def set_style(self,style):
                 self._style = style
@@ -161,16 +200,16 @@ class View(object):
         def set_model(self,model):
                 self.model = model
         @log_with()
+        def set_builddir(self,folder):
+                self._outputfolder = folder
+                if not os.path.exists(folder):
+                        os.makedirs(folder)
+        @log_with()
         def set_outfilename(self,filename):
                 if filename: self._outfilename = filename
         @log_with()
         def set_extension(self,extension):
                 self._outfileextension = extension
-        @log_with()
-        def set_outputfolder(self,folder):
-                self._outputfolder = folder
-                if not os.path.exists(folder):
-                        os.makedirs(folder)
         @log_with()
         def get_outfile_name(self,substring=''):
                 for ext in self._outfileextension.split(","):
@@ -205,6 +244,10 @@ class View(object):
                                         json.dump(self.model._configuration, f, indent=4, sort_keys=True)
 
         @log_with()
+        def save(self,serializer):
+                serializer.serialize_view(self)
+
+        @log_with()
         def draw(self):
                 c = rt.TCanvas('c','cms',5,45,800,800)
 
@@ -223,11 +266,16 @@ class LatexBeamerView(View):
                 pass
 
         @log_with()
+        def save(self,serializer):
+                serializer.serialize_beamer_view(self)
+
+        @log_with()
         def draw(self):
                 self.Init()
 		View.draw(self)
                 print self.model._configuration
-                subprocess.call(["pdflatex", "-interaction=nonstop", "-output-directory=build", self.model._configuration['latex_main']])
+                subprocess.call(["pdflatex", "-interaction=nonstop", "-output-directory={}".format(self._outputfolder), 
+                                 self.model._configuration['latex_main']])
 
 class LatexReportView(View):
         @log_with()
@@ -239,12 +287,18 @@ class LatexReportView(View):
         def Init(self):
                 pass
 
+
+        @log_with()
+        def save(self,serializer):
+                serializer.serialize_report_view(self)
+
         @log_with()
         def draw(self):
                 self.Init()
 		View.draw(self)
                 print self.model._configuration
-                subprocess.call(["pdflatex", "-interaction=nonstop", "-output-directory=build", self.model._configuration['latex_main']])
+                # subprocess.call(["pdflatex", "-interaction=nonstop", "-output-directory={}".format(self._outputfolder),
+                                #  self.model._configuration['latex_main']])
 		
 def main(arguments):
 
@@ -286,10 +340,13 @@ def main(arguments):
                 view = View()
         view.set_model(model)
         view.set_style(style)
-        view.set_outputfolder(arguments.dir)
+        view.set_builddir(arguments.builddir)
         view.set_outfilename(arguments.outfile)
         view.set_extension(arguments.extension)
         view.draw()
+        serializer = Serializer(builddir=arguments.builddir)
+        serializer.set_outputfolder(arguments.dir)
+        view.save(serializer)
 	
 	configuration['command']=' '.join(sys.argv)
         if arguments.annotation_format:
@@ -305,8 +362,10 @@ if __name__ == '__main__':
         parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
+        parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
         parser.add_argument('-o', '--outfile', help="Output file", default='test')
         parser.add_argument('-e', '--extension', help="Plot file extension (.C, .root, .png, .pdf)", default='png')
+        parser.add_argument('--builddir', help="Build directory", default='build')
         parser.add_argument('--dir', help="Result output directory", default='.')
         parser.add_argument('-c', '--config', help=".json or _cff.py configuration file", required=True)
         parser.add_argument('-a', '--annotation_format', default="screen",\

@@ -13,6 +13,10 @@ python tools/performace_comparison.py -b -v -j conf.json  -o outputfile --dir=$o
 #OR using python config file
 python tools/performace_comparison.py -b -v -j conf_cff.py  -o outputfile --dir=$out -e pdf
 ```
++ tests
+```bash
+python -m unittest discover . -v
+```
 ## Binning usage example
 ```python
 import ROOT as rt

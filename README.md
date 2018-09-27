@@ -17,6 +17,13 @@ python tools/performace_comparison.py -b -v -j conf_cff.py  -o outputfile --dir=
 ```bash
 python -m unittest discover . -v
 ```
+
+## LaTeX
+```bash 
+cp -a latex resources; cd build/;pdflatex latex/slides.tex;cd -
+cp -a latex resources; cd build/;pdflatex latex/report.tex;cd -
+```
+
 ## Binning usage example
 ```python
 import ROOT as rt

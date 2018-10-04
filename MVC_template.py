@@ -274,7 +274,7 @@ class LatexBeamerView(View):
                 self.Init()
 		View.draw(self)
                 print self.model._configuration
-                subprocess.call(["pdflatex", "-interaction=nonstop", "-output-directory={}".format(self._outputfolder), 
+                subprocess.call(["pdflatex", "-interaction=nonstopmode", "-output-directory={}".format(self._outputfolder), 
                                  self.model._configuration['latex_main']])
 
 class LatexReportView(View):
@@ -297,7 +297,7 @@ class LatexReportView(View):
                 self.Init()
 		View.draw(self)
                 print self.model._configuration
-                # subprocess.call(["pdflatex", "-interaction=nonstop", "-output-directory={}".format(self._outputfolder),
+                # subprocess.call(["pdflatex", "-interaction=nonstopmode", "-output-directory={}".format(self._outputfolder),
                                 #  self.model._configuration['latex_main']])
 		
 def main(arguments):

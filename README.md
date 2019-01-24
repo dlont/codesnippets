@@ -20,8 +20,8 @@ python -m unittest discover . -v
 
 ## LaTeX
 ```bash 
-cp -a latex resources; cd build/;pdflatex latex/slides.tex;cd -
-cp -a latex resources; cd build/;pdflatex latex/report.tex;cd -
+cp -a latex resources build; cd build/;pdflatex latex/slides.tex;cd -
+cp -a latex resources build; cd build/;pdflatex latex/report.tex;cd -
 ```
 
 ## Binning usage example

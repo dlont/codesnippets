@@ -259,6 +259,12 @@ class LatexBeamerView(View):
         @log_with()
         def __init__(self):
                 self.limits=None
+                self.views = set()
+                pass
+
+        @log_with()
+        def add_view(self, view):
+                self.views.add(view)
                 pass
 
         @log_with()
@@ -272,7 +278,7 @@ class LatexBeamerView(View):
         @log_with()
         def draw(self):
                 self.Init()
-		View.draw(self)
+		for view in self.views: view.draw()
                 print self.model._configuration
                 subprocess.call(["pdflatex", "-interaction=nonstopmode", "-output-directory={}".format(self._outputfolder), 
                                  self.model._configuration['latex_main']])
@@ -281,6 +287,12 @@ class LatexReportView(View):
         @log_with()
         def __init__(self):
                 self.limits=None
+                self.views = set()
+                pass
+
+        @log_with()
+        def add_view(self, view):
+                self.views.add(view)
                 pass
 
         @log_with()
@@ -295,7 +307,7 @@ class LatexReportView(View):
         @log_with()
         def draw(self):
                 self.Init()
-		View.draw(self)
+		for view in self.views: view.draw()
                 print self.model._configuration
                 # subprocess.call(["pdflatex", "-interaction=nonstopmode", "-output-directory={}".format(self._outputfolder),
                                 #  self.model._configuration['latex_main']])

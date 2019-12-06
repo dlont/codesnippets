@@ -187,7 +187,7 @@ class Serializer(object):
 
 class View(object):
         @log_with()
-        def __init__(self):
+        def __init__(self,view_name=None):
                 self.model = None
                 self._style = None
                 self._outfilename = 'out'
@@ -257,8 +257,8 @@ class View(object):
 			
 class LatexBeamerView(View):
         @log_with()
-        def __init__(self):
-                self.limits=None
+        def __init__(self,view_name=None):
+                self.view_name=view_name
                 self.views = set()
                 pass
 
@@ -273,6 +273,7 @@ class LatexBeamerView(View):
 
         @log_with()
         def save(self,serializer):
+		for view in self.views: view.save(serializer)
                 serializer.serialize_beamer_view(self)
 
         @log_with()
@@ -285,8 +286,8 @@ class LatexBeamerView(View):
 
 class LatexReportView(View):
         @log_with()
-        def __init__(self):
-                self.limits=None
+        def __init__(self,view_name=None):
+                self.view_name=view_name
                 self.views = set()
                 pass
 
@@ -302,6 +303,7 @@ class LatexReportView(View):
 
         @log_with()
         def save(self,serializer):
+		for view in self.views: view.save(serializer)
                 serializer.serialize_report_view(self)
 
         @log_with()
@@ -341,29 +343,41 @@ def main(arguments):
 
         style = Style(configuration,model)
 
-        view = None
+        document = None
         if configuration['mode'] == 'beamer':
                 print "beamer option is not implemented!"
-                view = LatexBeamerView()
+                document = LatexBeamerView()
         elif configuration['mode'] == 'report':
                 print "report option is not implemented!"
-                view = LatexReportView()
-        else:
-                view = View()
-        view.set_model(model)
-        view.set_style(style)
-        view.set_builddir(arguments.builddir)
-        view.set_outfilename(arguments.outfile)
-        view.set_extension(arguments.extension)
-        view.draw()
+                document = LatexReportView()
+        else: raise NotImplementedError
+        document.set_model(model)
+        document.set_style(style)
+        document.set_builddir(arguments.builddir)
+        # document.set_outfilename(arguments.outfile)
+        # document.set_extension(arguments.extension)
         serializer = Serializer(builddir=arguments.builddir)
         serializer.set_outputfolder(arguments.dir)
-        view.save(serializer)
-	
-	configuration['command']=' '.join(sys.argv)
-        if arguments.annotation_format:
-                view.annotate(arguments.annotation_format)
-                view.save_config(arguments.config)
+        
+        view = None
+        for view_name in configuration['canvas']:
+                #if configuration[view_name]['type'] == 'specific_type':
+                #        view = ViewSpecificType(view_name)
+                #else: pass
+                view.set_model(model)
+                view.set_style(style)
+                view.set_builddir(arguments.builddir)
+                view.set_outfilename(arguments.outfile)
+                view.set_extension(arguments.extension)
+                if arguments.annotation_format:
+                        view.annotate(arguments.annotation_format)
+
+                document.add_view(view)
+
+        document.draw()
+        document.save(serializer)
+        configuration['command']=' '.join(sys.argv)
+        document.save_config(arguments.config)
 
         return 0
 

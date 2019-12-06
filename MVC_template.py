@@ -188,6 +188,7 @@ class Serializer(object):
 class View(object):
         @log_with()
         def __init__(self,view_name=None):
+		self.view_name = view_name
                 self.model = None
                 self._style = None
                 self._outfilename = 'out'

@@ -360,20 +360,20 @@ def main(arguments):
         serializer = Serializer(builddir=arguments.builddir)
         serializer.set_outputfolder(arguments.dir)
         
-        view = None
-        for view_name in configuration['canvas']:
-                #if configuration[view_name]['type'] == 'specific_type':
-                #        view = ViewSpecificType(view_name)
-                #else: pass
-                view.set_model(model)
-                view.set_style(style)
-                view.set_builddir(arguments.builddir)
-                view.set_outfilename(arguments.outfile)
-                view.set_extension(arguments.extension)
-                if arguments.annotation_format:
-                        view.annotate(arguments.annotation_format)
+        view = View('SimpleView')
+        #for view_name in configuration['canvas']:
+        #if configuration[view_name]['type'] == 'specific_type':
+        #        view = ViewSpecificType(view_name)
+        #else: pass
+        view.set_model(model)
+        view.set_style(style)
+        view.set_builddir(arguments.builddir)
+        view.set_outfilename(arguments.outfile)
+        view.set_extension(arguments.extension)
+        if arguments.annotation_format:
+                view.annotate(arguments.annotation_format)
 
-                document.add_view(view)
+        document.add_view(view)
 
         document.draw()
         document.save(serializer)

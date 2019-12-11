@@ -215,21 +215,24 @@ class View(object):
         def get_outfile_name(self,substring=''):
                 for ext in self._outfileextension.split(","):
                         yield '{}/{}{}.{}'.format(self._outputfolder,self._outfilename,substring,ext)
-
-        @log_with()
+        
+	@log_with()
         def annotate(self,type):
                 if type == "screen":
                         bright_green_text = "\033[1;32;40m"
                         normal_text = "\033[0;37;40m"
-                        print "\n".join(textwrap.wrap(bcolors.OKBLUE+
-                                  self.model._annotation.encode('ascii')+
-                                  bcolors.ENDC, 120))
+                        if self.view_name in self.model._configuration:
+                                if 'annotation' in self.model._configuration[self.view_name]:
+                                        print "\n".join(textwrap.wrap(bcolors.OKBLUE+
+                                                self.model._configuration[self.view_name]['annotation'].encode('ascii')+
+                                                bcolors.ENDC, 120))
                 elif type == "tex":
                         logging.warning("Annotation format: {}. Not implemented yet!".format(type))
                 elif type == "md":
                         logging.warning("Annotation format: {}. Not implemented yet!".format(type))
                 else:
                         logging.error("Annotation format not recognized: {}".format(type))
+
 
         @log_with()
         def save_config(self, config):
@@ -277,6 +280,21 @@ class LatexBeamerView(View):
 		for view in self.views: view.save(serializer)
                 serializer.serialize_beamer_view(self)
 
+	@log_with()
+        def annotate(self,type):
+                if type == "screen":
+                        bright_green_text = "\033[1;32;40m"
+                        normal_text = "\033[0;37;40m"
+                        print "\n".join(textwrap.wrap(bcolors.OKBLUE+
+                                                self.model._annotation.encode('ascii')+
+                                                bcolors.ENDC, 120))
+                elif type == "tex":
+                        logging.warning("Annotation format: {}. Not implemented yet!".format(type))
+                elif type == "md":
+                        logging.warning("Annotation format: {}. Not implemented yet!".format(type))
+                else:
+                        logging.error("Annotation format not recognized: {}".format(type))
+			
         @log_with()
         def draw(self):
                 self.Init()
@@ -306,7 +324,22 @@ class LatexReportView(View):
         def save(self,serializer):
 		for view in self.views: view.save(serializer)
                 serializer.serialize_report_view(self)
-
+		
+        @log_with()
+        def annotate(self,type):
+                if type == "screen":
+                        bright_green_text = "\033[1;32;40m"
+                        normal_text = "\033[0;37;40m"
+                        print "\n".join(textwrap.wrap(bcolors.OKBLUE+
+                                                self.model._annotation.encode('ascii')+
+                                                bcolors.ENDC, 120))
+                elif type == "tex":
+                        logging.warning("Annotation format: {}. Not implemented yet!".format(type))
+                elif type == "md":
+                        logging.warning("Annotation format: {}. Not implemented yet!".format(type))
+                else:
+                        logging.error("Annotation format not recognized: {}".format(type))
+			
         @log_with()
         def draw(self):
                 self.Init()
@@ -376,6 +409,7 @@ def main(arguments):
         document.add_view(view)
 
         document.draw()
+	if arguments.annotation_format: document.annotate(arguments.annotation_format)
         document.save(serializer)
         configuration['command']=' '.join(sys.argv)
         document.save_config(arguments.config)

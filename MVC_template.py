@@ -413,7 +413,6 @@ def main(arguments):
         document.draw()
 	if arguments.annotation_format: document.annotate(arguments.annotation_format)
         document.save(serializer)
-        configuration['command']=' '.join(sys.argv)
         git_branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).strip()
         git_commit_hash = subprocess.check_output(["git", "log", "-1", "--format=%h"]).strip()
         git_commit_date = subprocess.check_output(["git", "log", "-1", "--format=%ai"]).strip()
@@ -423,7 +422,8 @@ def main(arguments):
         print "CONF MD5SUM:{}".format(md5_config)
         provenance_dic = {'git':''.join("{} - {} - {}".format(git_branch,git_commit_hash,git_commit_date)),
                           'md5sum':[md5_config.split()],
-                          'runtime':{"start":'{}'.format(launch_time),"end":'{}'.format(datetime.datetime.now())}}
+                          'runtime':{"start":'{}'.format(launch_time),"end":'{}'.format(datetime.datetime.now())},
+                          'command':' '.join(sys.argv)}
         configuration['provenance']=provenance_dic
         document.save_config(arguments.config)
 

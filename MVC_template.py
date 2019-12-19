@@ -13,6 +13,7 @@ import glob
 import shutil
 import argparse
 import subprocess
+import datetime
 import logging
 import json
 import textwrap
@@ -350,6 +351,7 @@ class LatexReportView(View):
 		
 def main(arguments):
 
+        launch_time = datetime.datetime.now()
         # Disable garbage collection for this list of objects
         rt.TCanvas.__init__._creates = False
         rt.TFile.__init__._creates = False
@@ -412,6 +414,17 @@ def main(arguments):
 	if arguments.annotation_format: document.annotate(arguments.annotation_format)
         document.save(serializer)
         configuration['command']=' '.join(sys.argv)
+        git_branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).strip()
+        git_commit_hash = subprocess.check_output(["git", "log", "-1", "--format=%h"]).strip()
+        git_commit_date = subprocess.check_output(["git", "log", "-1", "--format=%ai"]).strip()
+        md5_config = subprocess.check_output(["md5sum", os.path.abspath(arguments.config)]).strip('\n')
+        #git_tag = subprocess.check_output(["git", "describe"])
+        print "GITINFO:{} - {} - {}".format(git_branch,git_commit_hash,git_commit_date)#, git_tag
+        print "CONF MD5SUM:{}".format(md5_config)
+        provenance_dic = {'git':''.join("{} - {} - {}".format(git_branch,git_commit_hash,git_commit_date)),
+                          'md5sum':[md5_config.split()],
+                          'runtime':{"start":'{}'.format(launch_time),"end":'{}'.format(datetime.datetime.now())}}
+        configuration['provenance']=provenance_dic
         document.save_config(arguments.config)
 
         return 0

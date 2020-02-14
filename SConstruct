@@ -153,4 +153,17 @@ def print_child_nodes(root, child_func, prune=0, showtags=0, margin=[0], visited
         margin.pop()
 
 
-print_child_nodes(kbc[0],get_all_children)
+AddOption('--mytree',
+          dest='mytree',
+          type='string',
+          nargs='?',
+          default='',
+          action='store',
+          metavar='DIR',
+          help='print decorated build tree for graphviz')
+my_tree = GetOption('mytree')
+
+if my_tree != '':
+    for item in BUILD_TARGETS:
+        print_child_nodes(env.arg2nodes(item)[0],get_all_children)
+    pass

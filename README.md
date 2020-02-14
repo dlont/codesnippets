@@ -45,3 +45,10 @@ h = ob.get_histogram()
 c.Draw("leptonIso>>sample_hist","nJets>=10&&nMtags>=4","goff")
 h.SetDrawOption('hist text pE0')
 ```
+
+## Scons dependency tree
+**requires graphviz**
+
+```bash
+scons -Q -n -f SConstruct kbc| ./scons_dependency_tree.py | dot -Tpdf > dot_rendering.pdf
+```

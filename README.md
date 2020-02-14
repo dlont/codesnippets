@@ -52,3 +52,7 @@ h.SetDrawOption('hist text pE0')
 ```bash
 scons -Q -n -f SConstruct kbc| ./scons_dependency_tree.py | dot -Tpdf > dot_rendering.pdf
 ```
+alternatively
+```bash
+scons --tree=all -Q -n -f SConstruct kbc| ./scons_dependency_tree.py | dot -Tpdf > dot_rendering.pdf
+```
